@@ -4,13 +4,13 @@ from typing import Optional
 
 
 class CucumbersMover:
-    def __init__(self, input_file: Path, store_frames=True, stop_frame_number=1000):
+    def __init__(self, input_file: Path, save_frames=True, stop_frame_number=1000):
         self._initial_positions = self._get_cucumbers_initial_positions(input_file)
         self._stop_frame_number = stop_frame_number
         self._frame_number = 0
-        self._store_frames = store_frames
+        self._save_frames = save_frames
+        self._frames = []
         self._move_till_equilibrium()
-        self._all_frames = []
 
     @staticmethod
     def _get_cucumbers_initial_positions(input_file: Path):
@@ -44,6 +44,7 @@ class CucumbersMover:
 
         return positions_after_down_move
 
+
     def _move_till_equilibrium(self):
         actual_positions = self._initial_positions
         has_moved = True
@@ -53,18 +54,26 @@ class CucumbersMover:
 
             has_moved = False
 
+            frame = ""
+
             for i, row in enumerate(actual_positions):
-                if "".join(row) != "".join(position_after_moving[i]):
+                frame_row = "".join(position_after_moving[i])
+
+                if self._save_frames:
+                    frame += frame_row + "\n"
+
+                if "".join(row) != frame_row:
                     has_moved = True
-                    break
+
+            self._frames.append(frame)
 
             actual_positions = position_after_moving
             self._frame_number += 1
 
     @property
-    def get_last_frame(self):
+    def get_last_frame_number(self):
         return self._frame_number
 
     @property
-    def get_all_frames(self) -> Optional[list[str]]:
-        return self._all_frames
+    def get_frames(self) -> Optional[list[str]]:
+        return self._frames
