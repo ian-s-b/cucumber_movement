@@ -18,10 +18,10 @@ class CucumbersMover:
             return [[j for j in i.strip()] for i in f.readlines()]
 
     @staticmethod
-    def _is_occupied(position):
+    def _is_occupied(position: str):
         return True if position == ">" or position == "v" else False
 
-    def _move_cucumbers(self, positions):
+    def _move_cucumbers(self, positions: list[list[str]]) -> list[list[str]]:
         # Move cucumbers right
         positions_after_right_move = deepcopy(positions)
 
@@ -45,15 +45,13 @@ class CucumbersMover:
         return positions_after_down_move
 
 
-    def _move_till_equilibrium(self):
+    def _move_till_equilibrium(self) -> None:
         actual_positions = self._initial_positions
         has_moved = True
 
         while has_moved and self._frame_number < self._stop_frame_number:
             position_after_moving = self._move_cucumbers(actual_positions)
-
             has_moved = False
-
             frame = ""
 
             for i, row in enumerate(actual_positions):
@@ -68,12 +66,11 @@ class CucumbersMover:
                         break
 
             self._frames.append(frame)
-
             actual_positions = position_after_moving
             self._frame_number += 1
 
     @property
-    def get_last_frame_number(self):
+    def get_last_frame_number(self) -> int:
         return self._frame_number
 
     @property
