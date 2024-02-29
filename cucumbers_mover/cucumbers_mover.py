@@ -1,9 +1,10 @@
 from copy import deepcopy
+from pathlib import Path
 
 
 class CucumbersMover:
     @staticmethod
-    def get_cucumbers_initial_positions(input_file):
+    def get_cucumbers_initial_positions(input_file: Path):
         with open(input_file, "r", encoding="utf-8") as f:
             return [[j for j in i.strip()] for i in f.readlines()]
 
@@ -55,14 +56,3 @@ class CucumbersMover:
             frame += 1
 
         return frame
-
-
-if __name__ == "__main__":
-
-    cucumbers_mover = CucumbersMover()
-
-    init_pos = cucumbers_mover.get_cucumbers_initial_positions("input.txt")
-
-    equilibrium_frame = cucumbers_mover.get_equilibrium_frame(init_pos)
-
-    print(equilibrium_frame)
