@@ -64,6 +64,8 @@ class CucumbersMover:
 
                 if "".join(row) != frame_row:
                     has_moved = True
+                    if not self._save_frames:
+                        break
 
             self._frames.append(frame)
 
