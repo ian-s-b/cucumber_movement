@@ -2,10 +2,8 @@ from pathlib import Path
 
 from cucumbers_mover.cucumbers_mover import CucumbersMover
 
-cucumbers_mover = CucumbersMover()
+cucumbers_mover = CucumbersMover(Path("inputs/input_big.txt"))
 
-init_pos = cucumbers_mover.get_cucumbers_initial_positions(Path("inputs/input_big.txt"))
-
-equilibrium_frame = cucumbers_mover.get_equilibrium_frame(init_pos)
+equilibrium_frame = cucumbers_mover.get_equilibrium_frame()
 
 print(equilibrium_frame)
