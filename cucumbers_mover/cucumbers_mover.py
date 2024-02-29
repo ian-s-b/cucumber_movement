@@ -1,10 +1,15 @@
 from copy import deepcopy
 from pathlib import Path
+from typing import Optional
 
 
 class CucumbersMover:
-    def __init__(self, input_file: Path):
+    def __init__(self, input_file: Path, store_frames=True, stop_frame=1000):
         self._initial_positions = self._get_cucumbers_initial_positions(input_file)
+        self._stop_frame = stop_frame
+        self._frame = 0
+        self._store_frames = store_frames
+        self._move_till_equilibrium()
 
     @staticmethod
     def _get_cucumbers_initial_positions(input_file: Path):
@@ -38,12 +43,11 @@ class CucumbersMover:
 
         return positions_after_down_move
 
-    def get_equilibrium_frame(self, stop_frame=1000):
+    def _move_till_equilibrium(self):
         actual_positions = self._initial_positions
         has_moved = True
-        frame = 0
 
-        while has_moved and frame < stop_frame:
+        while has_moved and self._frame < self._stop_frame:
             position_after_moving = self._move_cucumbers(actual_positions)
 
             has_moved = False
@@ -54,6 +58,12 @@ class CucumbersMover:
                     break
 
             actual_positions = position_after_moving
-            frame += 1
+            self._frame += 1
 
-        return frame
+    @property
+    def get_last_frame(self):
+        return self._frame
+
+    def get_all_frames(self) -> Optional[list[str]]:
+        if not self._store_frames:
+            return None
