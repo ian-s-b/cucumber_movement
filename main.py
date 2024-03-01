@@ -1,4 +1,3 @@
-import time
 from pathlib import Path
 
 from cucumbers_gif_maker.cucumbers_gif_maker import CucumbersGifMaker

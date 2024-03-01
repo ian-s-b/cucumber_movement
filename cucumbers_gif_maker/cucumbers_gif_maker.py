@@ -3,8 +3,6 @@ from pathlib import Path
 import imageio
 from PIL import Image, ImageDraw, ImageFont
 
-from cucumbers_mover.cucumbers_mover import FrameSize
-
 
 class CucumbersGifMaker:
     def __init__(self, frames: list[str], output_path: Path):
@@ -30,7 +28,7 @@ class CucumbersGifMaker:
 
         return images_paths
 
-    def make_gif(self, gif_path: Path, images_paths=None, duration=0.1) -> None:
+    def make_gif(self, gif_path: Path, images_paths: list[str]=None, duration: int=0.1) -> None:
         if images_paths is None:
             images_paths = self.make_images()
 
