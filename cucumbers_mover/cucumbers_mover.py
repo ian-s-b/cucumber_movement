@@ -1,21 +1,28 @@
 from copy import deepcopy
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
+@dataclass
+class FrameSize:
+    nb_of_rows: int
+    nb_of_cols: int
 
 class CucumbersMover:
     def __init__(self, input_file: Path, save_frames=True, stop_frame_number=1000):
-        self._initial_positions = self._get_cucumbers_initial_positions(input_file)
+        self._initial_positions, self._frame_size = self._get_cucumbers_initial_positions(input_file)
         self._stop_frame_number = stop_frame_number
         self._frame_number = 0
         self._save_frames = save_frames
         self._frames = []
         self._move_till_equilibrium()
 
-    @staticmethod
-    def _get_cucumbers_initial_positions(input_file: Path):
+
+    def _get_cucumbers_initial_positions(self, input_file: Path):
         with open(input_file, "r", encoding="utf-8") as f:
-            return [[j for j in i.strip()] for i in f.readlines()]
+            initial_positions = [[j for j in i.strip()] for i in f.readlines()]
+            frame_size = FrameSize(nb_of_rows=len(initial_positions), nb_of_cols=len(initial_positions[0]))
+            return initial_positions, frame_size
 
     @staticmethod
     def _is_occupied(position: str):
@@ -55,12 +62,12 @@ class CucumbersMover:
             frame = ""
 
             for i, row in enumerate(actual_positions):
-                frame_row = "".join(position_after_moving[i])
+                frame_row = " ".join(position_after_moving[i])
 
                 if self._save_frames:
                     frame += frame_row + "\n"
 
-                if "".join(row) != frame_row:
+                if " ".join(row) != frame_row:
                     has_moved = True
                     if not self._save_frames:
                         break
@@ -76,3 +83,7 @@ class CucumbersMover:
     @property
     def get_frames(self) -> Optional[list[str]]:
         return self._frames
+
+    @property
+    def get_frame_size(self) -> FrameSize:
+        return self._frame_size
