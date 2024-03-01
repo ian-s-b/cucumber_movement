@@ -8,9 +8,7 @@ cucumbers_mover = CucumbersMover(Path("inputs/input_small.txt"))
 
 print(cucumbers_mover.get_last_frame_number)
 
-print(cucumbers_mover.get_frame_size)
-
-gif_maker = CucumbersGifMaker(cucumbers_mover.get_frames, cucumbers_mover.get_frame_size, Path("outputs"))
+gif_maker = CucumbersGifMaker(cucumbers_mover.get_frames, Path("outputs"))
 
 images_paths = gif_maker.make_images()
 

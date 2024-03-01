@@ -7,9 +7,8 @@ from cucumbers_mover.cucumbers_mover import FrameSize
 
 
 class CucumbersGifMaker:
-    def __init__(self, frames: list[str], frame_size: FrameSize, output_path: Path):
+    def __init__(self, frames: list[str], output_path: Path):
         self._frames = frames
-        self._frame_size = frame_size
         self._output_path = output_path
         self._padding = 5
 
